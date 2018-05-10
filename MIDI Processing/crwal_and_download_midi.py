@@ -25,15 +25,21 @@ def download_midi(music):
         url = "https://freemidi.org/"
         download_url = url + "getter-"+ tmp_list[1]
         html_page_url= url + "download-"+ tmp_list[1]
+        
+        #build up the headers
         headers = {'Referer': html_page_url,"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
+        
         print (download_url)
         directory="newoutput/"+music["artist_name"]
         if not os.path.exists(directory):
             os.makedirs(directory)
         file_name="newoutput/"+music["artist_name"]+"/"+music["artist_name"]+"$$$$$"+music["track_name"]+".midi"
+        
+        #Download-midi , with the download_url as input, headers is a mandatory input too
         downloaded_midi = requests.get(download_url, headers=headers, allow_redirects=False)
         with open(file_name, 'wb') as ex:
             ex.write(downloaded_midi.content)
+            
     return
 
 
@@ -88,3 +94,7 @@ alphabet=string.ascii_lowercase[:26]
 for letter in alphabet:
     index=letter
     crawl_download_url(index)
+
+#Download all midi files of artists at webpage https://freemidi.org/artists-0
+index0="0"
+crawl_download_url(index0)
